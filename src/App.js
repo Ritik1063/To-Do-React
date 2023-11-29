@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ListItem from "./ListItem";
 
 function App() {
+  const [note, setNote] = useState("");
+  const [noteitem, setnoteitem] = useState([]);
+
+  function handlechange(event) {
+    var { value } = event.target;
+    setNote(value);
+  }
+
+  function handleclick(event) {
+    setnoteitem((prevValue) => {
+      return [...prevValue, note];
+    });
+
+    // setInputText("")
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+
+      <div className="form">
+        <input
+          type="text"
+          placeholder="Type Your Note"
+          onChange={handlechange}
+          value={note}
+        />
+        <button onClick={handleclick}>
+          <span>Add</span>
+        </button>
+      </div>
+      <div>
+        <ul>
+          {noteitem.map((todoitem) => (
+            <ListItem text={todoitem} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
 
 export default App;
+
